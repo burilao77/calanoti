@@ -3,6 +3,8 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\I18n\Time;
+use Cake\ORM\TableRegistry;
+
 
 
 /**
@@ -20,24 +22,32 @@ class OrdersController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
-    public function index($order = null)
+    public function index()
     {
+     //$orders = $this->paginate($this->Orders->find('all'));
   //instanciada la variable de fecha actual    
-/*$time = Time::now();
-debug($time->day);
-        exit;*/
-
-      
-
-        //$orders = $this->paginate($this->Orders);
+$time = Time::now();
 
 
-        $order = $this->Orders->find('all', ['conditions' => ['Orders.date_expiration']]);
+    //instanciado la fecha de vencimiento         
+    $orders = TableRegistry::get('Orders');
+    $query = $orders->find();
+    foreach ($query as $row) {
 
-         debug($order);
-        exit;
-        $this->set(compact('orders'));
-        $this->set('_serialize', ['orders']);
+             if ($time !== $row->date_expiration) 
+            {
+                 
+              $this->Flash->exito('compara');
+            }
+    //debug($row->date_expiration->nice());
+        else{
+                $this->Flash->error('no esta comparando');
+        }
+             
+    }  
+  //exit;
+          $this->set(compact('time'));
+
     }
 
     /**
