@@ -1,13 +1,12 @@
 <div class="posts index large-9 medium-8 columns content">
 <br>
-    <h3><?= __('Productos Vencidos') ?></h3>
+    <h3><?= __('Productos validos') ?></h3>
     <div>
         <?= $this->Html->link('No vencidos', ['action' => 'noven']); ?>
     </div>
-      <div>
+          <div>
         <?= $this->Html->link('vencidos', ['action' => 'index']); ?>
     </div>
-  
     <table class="table table-hover">
         <thead>
             <tr>
@@ -30,7 +29,7 @@
                 <td><?= h($order->price) ?></td>
                 <td><?= h($order->description) ?></td>
                <td>
-               <?php echo "vencido"; ?>
+               <?php echo " no vencidos"; ?>
                  </td>
 
             </tr>

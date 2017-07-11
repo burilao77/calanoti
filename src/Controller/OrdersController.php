@@ -17,6 +17,16 @@ use Cake\ORM\TableRegistry;
 class OrdersController extends AppController
 {
 
+
+/*    public $paginate = [
+            'fields' => ['Orders.name', 'Orders.id'],
+            'limit' => '5',
+            'order' => [
+                'Orders.created' => 'DESC'
+            ]
+        ];*/
+
+
     /**
      * Index method
      *
@@ -24,30 +34,28 @@ class OrdersController extends AppController
      */
     public function index()
     {
-     //$orders = $this->paginate($this->Orders->find('all'));
-  //instanciada la variable de fecha actual    
-$time = Time::now();
+     
+        $time = Time::now();
+        $date_actual = $time;
+  
+        $orders = TableRegistry::get('Orders');
+        $query = $orders->find()
+                                ->select(['id', 'name', 'price', 'description'])
+                                ->where(['date_expiration <' => $date_actual]);
+       $this->set('orders', $this->paginate($query));
+    }
 
-
-    //instanciado la fecha de vencimiento         
-    $orders = TableRegistry::get('Orders');
-    $query = $orders->find();
-    foreach ($query as $row) {
-
-             if ($time !== $row->date_expiration) 
-            {
-                 
-              $this->Flash->exito('compara');
-            }
-    //debug($row->date_expiration->nice());
-        else{
-                $this->Flash->error('no esta comparando');
-        }
-             
-    }  
-  //exit;
-          $this->set(compact('time'));
-
+        public function noven()
+    {
+     
+        $time = Time::now();
+        $date_actual = $time;
+  
+        $orders = TableRegistry::get('Orders');
+        $query = $orders->find()
+                                ->select(['id', 'name', 'price', 'description'])
+                                ->where(['date_expiration >=' => $date_actual]);
+       $this->set('orders', $this->paginate($query));
     }
 
     /**
